@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+	<meta charset="UTF-8">
+<head>
+<audio id="audio"></audio>
+	<title>Twitterrrrrrrrr</title>
+	<style>
+	</style>
+</head>
+
+<canvas id="canvas"></canvas>
+<style>
+
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+
+
+</style>
+<body bgcolor="#000000">
+
+
+
+<script>
+
+canvas.width = window.innerWidth - 20  ;	//canvasの横幅（よこはば）
+canvas.height = window.innerHeight - 20  ;	//canvasの縦幅（たてはば）
+
+var widorhei = 0
+var bottom = 256 * (window.innerHeight / window.innerWidth)
+var right = 256 * (window.innerWidth / window.innerHeight)
+
+if (innerWidth <= innerHeight){
+widorhei = window.innerWidth
+//canvas.height = canvas.width
+}
+if (innerWidth > innerHeight){
+widorhei = window.innerHeight
+//canvas.width = canvas.height
+}
+
+var ctx = canvas.getContext( '2d' );//コンテキストを取得（しゅとく）
+ctx.scale(widorhei / 256,widorhei / 256);
+
+window.addEventListener('resize',function(){//主に画面回転やなーーーーーーーーーーーーーー
+
+canvas.width = window.innerWidth - 20  ;	//canvasの横幅（よこはば）
+canvas.height = window.innerHeight - 20  ;	//canvasの縦幅（たてはば）
+
+widorhei = 0
+bottom = 256 * (window.innerHeight / window.innerWidth)
+right = 256 * (window.innerWidth / window.innerHeight)
+if (innerWidth <= innerHeight){
+widorhei = window.innerWidth
+//canvas.height = canvas.width
+}
+if (innerWidth > innerHeight){
+widorhei = window.innerHeight
+//canvas.width = canvas.height
+}
+
+ctx.scale(widorhei / 256,widorhei / 256);
+if (playing == false){
+
+var iimg = new Image()
+iimg.src = 'title.png'
+if (window.innerWidth > window.innerHeight){
+ctx.drawImage(iimg,right / 2 - 128,0,256,256)
+}else{
+ctx.drawImage(iimg,0,0,256,256)}
+ctx.fillText('You must 横画面。タップでゲーム開始',2,170)
+}
+if (gameover == true){
+
+var iimg = new Image()
+iimg.src = 'title.png'
+if (window.innerWidth > window.innerHeight){
+ctx.drawImage(iimg,right / 2 - 128,0,256,256)
+}else{
+ctx.drawImage(iimg,0,0,256,256)}
+ctx.fillText('嗚呼、呟く青い鳥…Xって何?',2,170)
+
+}
+});//回転やなーーーーーーーーーーーーーーーー
+
+var img1 = new Image();
+img1.src = 'Haikei.png'  
+var img2 = new Image();
+img2.src = 'tori.png'  
+var img3 = new Image();
+img3.src = 'iromas.png' 
+ 
+var img4 = new Image();
+img4.src = 'tama1.png'  
+var img5= new Image();
+img5.src = 'tama2.png'  
+var img6 = new Image();
+img6.src = 'tama3.png'  
+
+var imgs = [img4,img5,img6]
+
+ctx.imageSmoothingEnabled = false;
+
+var px = 128//鳥座標
+var py = 128//
+
+var xx = 0//動き
+var yy = 0
+
+var tx = []
+var ty = []
+var txx = []
+var tyy = []
+var ts = []
+
+
+var aud = new Audio("twittertttt.mp3");
+aud = new Audio("twittertttt.mp3");
+aud.loop= true
+//aud.play()
+var playing = false
+var gameover = false
+var time = 0
+var mous = 0
+var mv = 0
+
+var score = 0
+function main() {//メインるーーーーーーーーーーーーーーーーーーーーーーーぷ
+//タイマー系
+
+time += 1;
+if (time % 10 == 0){score += 1}
+
+
+
+
+
+var habataka = window.innerHeight  / window.innerWidth
+
+var ctly = 0//＋の場所
+if (window.innerWidth * 1.2 > window.innerHeight ){ctly = window.innerHeight / 2} 
+if (window.innerHeight >= window.innerWidth * 1.2){ctly = window.innerWidth + (window.innerHeight - window.innerWidth) / 2 - 50}
+
+
+//ctx.rect(50, 40,40, 160);
+//ctx.rect(10, 100,120, 40);
+function mouse(x,y,a){//a は　down/start (0) かmove(1)かup(2)か。
+
+var h = (widorhei / 256)
+x /= h
+y /= h
+if (mv == 0){//初動か判定 
+if (x < 240){
+if (x < 60){xx = -5}
+if (x > 100){xx = 5}
+if (y < 90){yy = -5}
+if (y > 150){yy = 5}
+}
+}
+}
+
+//コントロール系
+
+if (playing == true){
+window.addEventListener('touchstart' , () => {mous =  1;var touchObject = event.changedTouches[0] ;var touchX = touchObject.pageX ;var touchY = touchObject.pageY ;mouse(touchX,touchY);aud.muted = false})
+window.addEventListener('touchmove' , () => {mous = 1; var touchObject = event.changedTouches[0] ;var touchX = touchObject.pageX ;var touchY = touchObject.pageY ;mouse(touchX,touchY);;aud.muted = false})
+window.addEventListener('touchend', () => {mous = 1;mv = 0;xx = 0;yy = 0})
+
+//window.addEventListener('mousedown' , () => { if ( mous == 0){mouse(event.screenX,event.screenY,0);aud.muted = false}})
+//window.addEventListener('mousemove' , () => { if (mous == 0){ if (mv == 1){mouse(event.screenX,event.screenY,1);}}})
+//window.addEventListener('mouseup', () => {if (mous == 0){mv = 0}})
+}
+
+
+for (i = 0;i < 5;i += 1){
+ctx.drawImage(img1,i * 256 + -(time * 2) % 256,0,256,256)
+}
+
+var ss = score / 20
+if (ss > 50){
+ss = 55
+}
+if (time % (55 - ss) < 1){
+var r = Math.random()
+if (r < 0.2){
+ts.push(0)
+tx.push(right - 30)
+ty.push(128)
+txx.push((px - right -30) / (100 - ss))
+tyy.push((py - 128) / (100 - ss))
+}else if (r < 0.7){
+ts.push(1)
+tx.push(right - 30)
+ty.push(Math.random() * 240)
+txx.push(-10)
+tyy.push(0)
+
+ts.push(1)
+tx.push(right - 30)
+ty.push(Math.random() * 240)
+txx.push(-10)
+tyy.push(0)
+
+
+}else{
+ts.push(2)
+tx.push(right - 30)
+ty.push(128)
+txx.push((px - right -30) / (100 - ss) - 2 + Math.random() * 4)
+tyy.push((py - 128) / (100 - ss) - 2 + Math.random() * 4)
+}
+
+}
+ctx.drawImage(img3,right - 60,128-30,60,60)
+if (px > right - 70 && py > 128-30 && py < 128 + 30){alert("ゲームオーバー。スコア" + score)
+gameover = true
+playing = false
+}
+
+for (i = 0;i < tx.length - 1;i += 1){
+ctx.drawImage(imgs[ts[i]],tx[i]-25,ty[i]-25,50,50)
+
+tx[i] += txx[i]
+ty[i] += tyy[i]
+
+if ((px - tx[i]) **2 + (py -ty[i]) **2 < 700){
+alert("ゲームオーバー。スコア" + score)
+gameover = true
+playing = false
+}
+}
+
+
+
+px += xx
+py += yy
+
+if (px < 158){px = 158}
+if (px > right - 32){px = right - 32}
+if (py < 32 ){py = 32}
+if (py > 256-32){py =256 - 32}
+
+ctx.drawImage(img2,px -32,py-32,65,65)
+
+ctx.beginPath();
+ctx.rect(50, 40,40, 160);
+ctx.strokeStyle = 'deepskyblue';
+ctx.lineWidth = 4;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.rect(10, 100,120, 40);
+ctx.strokeStyle = 'deepskyblue';
+ctx.lineWidth = 4;
+ctx.stroke();
+if (playing == true){
+requestAnimationFrame(main);
+aud.play();
+}
+if (gameover == true){
+
+var iimg = new Image()
+iimg.src = 'title.png'
+if (window.innerWidth > window.innerHeight){
+ctx.drawImage(iimg,right / 2 - 128,0,256,256)
+}else{
+ctx.drawImage(iimg,0,0,256,256)}
+ctx.fillText('嗚呼、呟く青い鳥…Xって何?',2,170)
+
+}
+if (gameover == true){
+px = 0
+py = 0
+ts =[]
+tx = []
+ty = []
+txx = []
+tyy = []
+window.addEventListener('touchend', () => {document.location.reload()})
+document.addEventListener('mouseup' , () => {document.location.reload()})
+
+}
+}
+
+//ページと依存（いぞん）している全てのデータが読み込まれたら、メインループ開
+if (playing == false){
+window.addEventListener('touchend', () => {if (playing == false){main();playing = true;requestAnimationFrame(main);aud.play();}})
+document.addEventListener('mouseup' , () => {if (playing == false){main();playing = true;requestAnimationFrame(main);}})
+}
+var iimg = new Image()
+iimg.src = 'title.png'
+
+addEventListener('load',() => {
+if (window.innerWidth > window.innerHeight){
+ctx.drawImage(iimg,right / 2 - 128,0,256,256)
+}else{ctx.drawImage(iimg,0,0,256,256)}
+ctx.font = '20px Pixel'
+ctx.fillStyle = '#f0f';
+ctx.fillText('You must 横画面。',2,bottom - 60)
+ctx.fillText('タップでゲーム開始',2,bottom - 30)});
+// スクロールを禁止にする関数
+function disableScroll(event) {
+  event.preventDefault();
+}
+
+// スクロール禁止
+  document.addEventListener('touchmove', disableScroll, { passive: false });
+  document.addEventListener('mousewheel', disableScroll, { passive: false });
+	</script>
+</body>
+</html>
