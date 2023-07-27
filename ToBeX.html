@@ -360,7 +360,7 @@ document.addEventListener('keyup' , () => {document.location.reload()})
 }
 
 //ページと依存（いぞん）している全てのデータが読み込まれたら、メインループ開
-if (playing == false && window.innerWidth > window.innerHeight){
+if (playing == false){
 window.addEventListener('touchend', () => {if (playing == false){main();playing = true;requestAnimationFrame(main);aud.play();}})
 document.addEventListener('keyup' , () => {if (playing == false){main();playing = true;requestAnimationFrame(main);}})
 }
