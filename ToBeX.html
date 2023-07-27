@@ -72,7 +72,14 @@ if (window.innerWidth > window.innerHeight){
 ctx.drawImage(iimg,right / 2 - 128,0,256,256)
 }else{
 ctx.drawImage(iimg,0,0,256,256)}
-ctx.fillText('You must 横画面。タップでゲーム開始',2,170)
+
+ctx.font = '20px Pixel'
+ctx.fillStyle = '#f0f';
+ctx.fillText('You must 横画面。タップorキー操作でゲーム開始',2,170)
+var scr = localStorage.getItem('score')
+if (scr > 0){
+ctx.fillText('君の最高得点は' + scr + '点っす。',2,200)
+}
 }
 if (gameover == true){
 
@@ -118,6 +125,7 @@ var tyy = []
 var ts = []
 
 
+
 var aud = new Audio("twittertttt.mp3");
 aud = new Audio("twittertttt.mp3");
 aud.loop= true
@@ -129,6 +137,40 @@ var mous = 0
 var mv = 0
 
 var score = 0
+function gmover(){
+
+var iimg = new Image()
+iimg.src = 'title.png'
+if (window.innerWidth > window.innerHeight){
+ctx.drawImage(iimg,right / 2 - 128,0,256,256)
+}else{
+ctx.drawImage(iimg,0,0,256,256)}
+ctx.fillText('嗚呼、呟く青い鳥…Xって何?',2,170)
+
+gameover = true
+playing = false
+px = 0
+py = 0
+ts =[]
+tx = []
+ty = []
+txx = []
+tyy = []
+var highscore = localStorage.getItem('score');
+if (highscore >= score){
+alert("ゲームオーバー。スコア" + score + '点。ちなみに君が出した最も素晴らしい記録は' + highscore + '点だね。')
+}else if(highscore > 0){
+alert("ゲームオーバー。記録更新！スコア" + score)
+localStorage.setItem('score', score);
+}else{
+alert("ゲームオーバー。スコア" + score)
+localStorage.setItem('score', score);
+
+}
+}
+
+var xxx = 0
+var yyy = 0//キー操作系
 function main() {//メインるーーーーーーーーーーーーーーーーーーーーーーーぷ
 //タイマー系
 
@@ -146,8 +188,6 @@ if (window.innerWidth * 1.2 > window.innerHeight ){ctly = window.innerHeight / 2
 if (window.innerHeight >= window.innerWidth * 1.2){ctly = window.innerWidth + (window.innerHeight - window.innerWidth) / 2 - 50}
 
 
-//ctx.rect(50, 40,40, 160);
-//ctx.rect(10, 100,120, 40);
 function mouse(x,y,a){//a は　down/start (0) かmove(1)かup(2)か。
 
 var h = (widorhei / 256)
@@ -170,9 +210,29 @@ window.addEventListener('touchstart' , () => {mous =  1;var touchObject = event.
 window.addEventListener('touchmove' , () => {mous = 1; var touchObject = event.changedTouches[0] ;var touchX = touchObject.pageX ;var touchY = touchObject.pageY ;mouse(touchX,touchY);;aud.muted = false})
 window.addEventListener('touchend', () => {mous = 1;mv = 0;xx = 0;yy = 0})
 
-//window.addEventListener('mousedown' , () => { if ( mous == 0){mouse(event.screenX,event.screenY,0);aud.muted = false}})
-//window.addEventListener('mousemove' , () => { if (mous == 0){ if (mv == 1){mouse(event.screenX,event.screenY,1);}}})
-//window.addEventListener('mouseup', () => {if (mous == 0){mv = 0}})
+
+window.addEventListener('keydown', (event) => {
+if (event.code == 'ArrowUp'){yyy = -1}
+if (event.code == 'ArrowDown'){yyy = 1}
+if (event.code == 'ArrowLeft'){xxx = -1}
+if (event.code == 'ArrowRight'){xxx = 1}
+
+var h = (widorhei / 256)
+mouse((70 + xxx * 80) * h,(105 + yyy * 80) * h)
+
+
+});
+window.addEventListener('keyup',  (event) => {
+if (event.code == 'ArrowUp'){yyy = 0}
+if (event.code == 'ArrowDown'){yyy = 0}
+if (event.code == 'ArrowLeft'){xxx = 0}
+if (event.code == 'ArrowRight'){xxx = 0}
+if (xxx == 0 && yyy == 0){mous = 1;mv = 0;xx = 0;yy = 0
+}
+});
+//ctx.rect(50, 40,40, 160);
+//ctx.rect(10, 100,120, 40);
+
 }
 
 
@@ -195,14 +255,18 @@ tyy.push((py - 128) / (100 - ss))
 }else if (r < 0.7){
 ts.push(1)
 tx.push(right - 30)
-ty.push(Math.random() * 240)
-txx.push(-10)
+ty.push(10 + Math.random() * 220)
+txx.push(-8)
 tyy.push(0)
 
+if (window.innerWidth > window.innerHeight * 1.9){
+txx[txx.length -1] *= 1.4
+tyy[tyy.length -1] *= 1.4
+}
 ts.push(1)
 tx.push(right - 30)
-ty.push(Math.random() * 240)
-txx.push(-10)
+ty.push(10 + Math.random() * 220)
+txx.push(-8)
 tyy.push(0)
 
 
@@ -214,11 +278,14 @@ txx.push((px - right -30) / (100 - ss) - 2 + Math.random() * 4)
 tyy.push((py - 128) / (100 - ss) - 2 + Math.random() * 4)
 }
 
+if (window.innerWidth > window.innerHeight * 1.9){
+txx[txx.length -1] *= 1.4
+tyy[tyy.length -1] *= 1.4
+}
+
 }
 ctx.drawImage(img3,right - 60,128-30,60,60)
-if (px > right - 70 && py > 128-30 && py < 128 + 30){alert("ゲームオーバー。スコア" + score)
-gameover = true
-playing = false
+if (px > right - 70 && py > 128-30 && py < 128 + 30){gmover()
 }
 
 for (i = 0;i < tx.length - 1;i += 1){
@@ -228,9 +295,9 @@ tx[i] += txx[i]
 ty[i] += tyy[i]
 
 if ((px - tx[i]) **2 + (py -ty[i]) **2 < 700){
-alert("ゲームオーバー。スコア" + score)
-gameover = true
-playing = false
+gmover()
+
+
 }
 }
 
@@ -239,12 +306,17 @@ playing = false
 px += xx
 py += yy
 
-if (px < 158){px = 158}
+var left = 158
+
+if (window.innerWidth < window.innerHeight * 1.9){left = 32}
+if (px < left){px = left}
 if (px > right - 32){px = right - 32}
 if (py < 32 ){py = 32}
 if (py > 256-32){py =256 - 32}
 
 ctx.drawImage(img2,px -32,py-32,65,65)
+
+if (window.innerWidth > window.innerHeight * 1.9){
 
 ctx.beginPath();
 ctx.rect(50, 40,40, 160);
@@ -257,6 +329,8 @@ ctx.rect(10, 100,120, 40);
 ctx.strokeStyle = 'deepskyblue';
 ctx.lineWidth = 4;
 ctx.stroke();
+
+}
 if (playing == true){
 requestAnimationFrame(main);
 aud.play();
@@ -270,7 +344,6 @@ ctx.drawImage(iimg,right / 2 - 128,0,256,256)
 }else{
 ctx.drawImage(iimg,0,0,256,256)}
 ctx.fillText('嗚呼、呟く青い鳥…Xって何?',2,170)
-
 }
 if (gameover == true){
 px = 0
@@ -281,15 +354,15 @@ ty = []
 txx = []
 tyy = []
 window.addEventListener('touchend', () => {document.location.reload()})
-document.addEventListener('mouseup' , () => {document.location.reload()})
+document.addEventListener('keyup' , () => {document.location.reload()})
 
 }
 }
 
 //ページと依存（いぞん）している全てのデータが読み込まれたら、メインループ開
-if (playing == false){
+if (playing == false && window.innerWidth > window.innerHeight){
 window.addEventListener('touchend', () => {if (playing == false){main();playing = true;requestAnimationFrame(main);aud.play();}})
-document.addEventListener('mouseup' , () => {if (playing == false){main();playing = true;requestAnimationFrame(main);}})
+document.addEventListener('keyup' , () => {if (playing == false){main();playing = true;requestAnimationFrame(main);}})
 }
 var iimg = new Image()
 iimg.src = 'title.png'
@@ -300,8 +373,13 @@ ctx.drawImage(iimg,right / 2 - 128,0,256,256)
 }else{ctx.drawImage(iimg,0,0,256,256)}
 ctx.font = '20px Pixel'
 ctx.fillStyle = '#f0f';
-ctx.fillText('You must 横画面。',2,bottom - 60)
-ctx.fillText('タップでゲーム開始',2,bottom - 30)});
+ctx.fillText('You must 横画面。PC&スマホ〇タブレット×',2,bottom - 60)
+ctx.fillText('タップorキー操作でゲーム開始',2,bottom - 30)
+var scr = localStorage.getItem('score')
+if (scr > 0){
+ctx.fillText('君の最高得点は' + scr + '点っす。',2,bottom)
+}
+});
 // スクロールを禁止にする関数
 function disableScroll(event) {
   event.preventDefault();
