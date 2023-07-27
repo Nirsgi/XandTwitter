@@ -30,7 +30,6 @@ canvas {
 canvas.width = window.innerWidth - 20  ;	//canvasの横幅（よこはば）
 canvas.height = window.innerHeight - 20  ;	//canvasの縦幅（たてはば）
 
-ctx.imageSmoothingEnabled = false;
 var widorhei = 0
 var bottom = 256 * (window.innerHeight / window.innerWidth)
 var right = 256 * (window.innerWidth / window.innerHeight)
@@ -47,6 +46,7 @@ widorhei = window.innerHeight
 var ctx = canvas.getContext( '2d' );//コンテキストを取得（しゅとく）
 ctx.scale(widorhei / 256,widorhei / 256);
 
+ctx.imageSmoothingEnabled = false;
 window.addEventListener('resize',function(){//主に画面回転やなーーーーーーーーーーーーーー
 
 canvas.width = window.innerWidth - 20  ;	//canvasの横幅（よこはば）
