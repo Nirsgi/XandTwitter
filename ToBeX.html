@@ -30,6 +30,7 @@ canvas {
 canvas.width = window.innerWidth - 20  ;	//canvasの横幅（よこはば）
 canvas.height = window.innerHeight - 20  ;	//canvasの縦幅（たてはば）
 
+ctx.imageSmoothingEnabled = false;
 var widorhei = 0
 var bottom = 256 * (window.innerHeight / window.innerWidth)
 var right = 256 * (window.innerWidth / window.innerHeight)
@@ -51,6 +52,7 @@ window.addEventListener('resize',function(){//主に画面回転やなーーー�
 canvas.width = window.innerWidth - 20  ;	//canvasの横幅（よこはば）
 canvas.height = window.innerHeight - 20  ;	//canvasの縦幅（たてはば）
 
+ctx.imageSmoothingEnabled = false;
 widorhei = 0
 bottom = 256 * (window.innerHeight / window.innerWidth)
 right = 256 * (window.innerWidth / window.innerHeight)
